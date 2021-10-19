@@ -1,0 +1,63 @@
+:revision: 2021.42.0
+:icons: font
+:main-title: Jeju-Road
+:sub-title: Back-end
+:description: Dev.Playground의 토이 프로젝트인 '제주로드'는 제주도 여행에 필요한 여행팁을 제공합니다 👍👍
+:git_service: https://github.com/develop-playground/
+:project_name: jeju-road-back-end
+:project_license: Copyright
+:experimental:
+:hardbreaks:
+
+
+= {main-title}: {sub-title}
+
+image:https://img.shields.io/badge/version-{revision}-blue.svg[link="./CHANGELOG",title="version"]  image:https://img.shields.io/badge/license-{project_license}-lightgrey.svg[link="./LICENSE",title="license"]
+
+
+== What is the Project
+
+{description}
+
+
+== Status
+
+Version {revision}
+
+* link:./CHANGELOG[History]
+* link:{git_service}{project_name}/wiki[Issues wiki] / link:{git_service}{project_name}/issues[Issues List]
+
+
+== Building
+
+. Clone a copy of the repository:
++
+[subs="attributes"]
+----
+$ git clone {git_service}{project_name}.git
+----
++
+
+. Change to the project directory:
++
+[subs="attributes"]
+----
+$ cd {project_name}
+----
++
+
+
+== Usage
+
+...
+
+
+== License
+
+* LICENSE: link:./LICENSE[{project_license}]
+
+
+== Contributors
+
+* Jeon Cheolho <woung2770@gmail.com>
+* ...
