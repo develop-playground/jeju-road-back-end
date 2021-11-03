@@ -1,0 +1,14 @@
+server:
+  port : 8080
+
+spring:
+  application:
+    name: jeju-road
+  datasource:
+    username: postgres
+    password: DEVPG123!@#
+    url: jdbc:postgresql://220.82.24.198:5432/devpg?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+  jpa:
+    show-sql: false
+  jackson:
+    property-naming-strategy: SNAKE_CASE
