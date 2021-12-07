@@ -300,3 +300,6 @@ gradle-app.setting
 
 ### VS Code ###
 .vscode/
+
+### Local Postgresql ###
+src/main/resources/docker/postgres/data/

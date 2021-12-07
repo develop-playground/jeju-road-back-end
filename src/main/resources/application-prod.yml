@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    username: postgres
+    password: DEVPG123!@#
+    url: jdbc:postgresql://220.82.24.198:5432/postgres?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
