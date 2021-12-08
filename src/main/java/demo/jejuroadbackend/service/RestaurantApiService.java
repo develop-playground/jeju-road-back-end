@@ -1,6 +1,6 @@
 package demo.jejuroadbackend.service;
 
-import demo.jejuroadbackend.model.entity.Restaurant;
+import demo.jejuroadbackend.domain.Restaurant;
 import demo.jejuroadbackend.model.network.HTTPHeader;
 import demo.jejuroadbackend.model.network.request.RestaurantApiRequest;
 import demo.jejuroadbackend.model.network.response.RestaurantApiResponse;
