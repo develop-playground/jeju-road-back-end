@@ -4,7 +4,7 @@ server:
 spring:
   application:
     name: jeju-road
-  jpa:
-    show-sql: false
+#  jpa:
+#    show-sql: false
   jackson:
     property-naming-strategy: SNAKE_CASE

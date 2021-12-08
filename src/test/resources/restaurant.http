@@ -1,0 +1,19 @@
+### 맛집 등록
+POST http://localhost:8080/api/restaurants
+Content-Type: application/json
+
+{
+  "name": "우진해장국",
+  "category": "restaurant",
+  "introduction": "'수요미식회'에 방영된, 따끈한 국물 요리로 해장하기 좋은 음식점",
+  "way_to_go": "동문 재래 시장에서 도보 9분",
+  "zipcode": "28921",
+  "state": "제주",
+  "city": "제주시",
+  "address": "제주특별자치도 제주시 서사로 11",
+  "latitude": 11.11,
+  "longitude": 22.22
+}
+
+### 맛집 조회
+GET http://localhost:8080/api/restaurants
