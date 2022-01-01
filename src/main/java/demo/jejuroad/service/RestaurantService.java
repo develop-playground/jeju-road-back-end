@@ -1,8 +1,8 @@
 package demo.jejuroad.service;
 
 import demo.jejuroad.domain.Restaurant;
-import demo.jejuroad.dto.RestaurantFind;
-import demo.jejuroad.dto.RestaurantRegister;
+import demo.jejuroad.dto.RestaurantRequest;
+import demo.jejuroad.dto.RestaurantResponse;
 import demo.jejuroad.mapper.RestaurantMapper;
 import demo.jejuroad.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
@@ -15,19 +15,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RestaurantService {
 
-    private RestaurantRepository repository;
+    private RestaurantRepository restaurantRepository;
     private RestaurantMapper mapper;
 
-    public Long register(final RestaurantRegister request) {
-        Restaurant restaurant = mapper.getRestaurantFromRegister(request);
-        return repository.save(restaurant).getId();
+    public Long register(final RestaurantRequest.Register request) {
+        Restaurant restaurant = mapper.mapToRestaurantFrom(request);
+        return restaurantRepository.save(restaurant).getId();
     }
 
-    public List<RestaurantFind> find() {
-        return repository
+    public List<RestaurantResponse.Find> find() {
+        return restaurantRepository
             .findAll()
             .stream()
-            .map((domain) -> mapper.getFindFromRestaurant(domain))
+            .map((domain) -> mapper.mapToFindFrom(domain))
             .collect(Collectors.toList());
     }
 

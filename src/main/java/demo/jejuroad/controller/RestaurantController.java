@@ -1,7 +1,7 @@
 package demo.jejuroad.controller;
 
-import demo.jejuroad.dto.RestaurantFind;
-import demo.jejuroad.dto.RestaurantRegister;
+import demo.jejuroad.dto.RestaurantRequest;
+import demo.jejuroad.dto.RestaurantResponse;
 import demo.jejuroad.service.RestaurantService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,12 +20,12 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @PostMapping
-    public Long register(@RequestBody RestaurantRegister request) {
+    public Long register(@RequestBody RestaurantRequest.Register request) {
         return restaurantService.register(request);
     }
 
     @GetMapping
-    public List<RestaurantFind> find() {
+    public List<RestaurantResponse.Find> find() {
         return restaurantService.find();
     }
 

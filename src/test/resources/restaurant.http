@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "name": "우진해장국",
-  "category": "restaurant",
+  "categories": ["restaurant", "caffe"],
   "introduction": "'수요미식회'에 방영된, 따끈한 국물 요리로 해장하기 좋은 음식점",
   "way_to_go": "동문 재래 시장에서 도보 9분",
   "zipcode": "28921",
