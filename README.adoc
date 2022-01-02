@@ -2,7 +2,6 @@
 :icons: font
 :main-title: Jeju-Road
 :sub-title: Back-end
-:description: Dev.Playground의 토이 프로젝트인 '제주로드'는 제주도 여행에 필요한 여행팁을 제공합니다 👍👍
 :git_service: https://github.com/develop-playground/
 :project_name: jeju-road-back-end
 :project_license: Copyright
@@ -17,7 +16,7 @@ image:https://img.shields.io/badge/version-{revision}-blue.svg[link="./CHANGELOG
 
 == What is the Project
 
-{description}
+`Dev.Playground`  토이 프로젝트인 '제주로드'는 제주도 여행에 필요한 여행팁을 제공합니다 👍👍
 
 
 == Status
@@ -54,6 +53,7 @@ $ cd {project_name}
 ** `Spring MVC`, `JUnit5`, `JPA`, `...`
 * link:{git_service}{project_name}/issues/5[도커 컨테이너 기반의 개발용 데이터베이스 환경 구축]
 * link:{git_service}{project_name}/issues/11[MapStruct 도입]
+* link:{git_service}{project_name}/issues/15[HTTP 응답 메시지의 페이로드에 대해 공통 포맷 적용]
 
 
 == License
