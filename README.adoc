@@ -47,9 +47,13 @@ $ cd {project_name}
 +
 
 
-== Usage
+== FootPrint
 
-...
+* 제주로드 요구사항 분석
+* link:{git_service}{project_name}/issues/1[스프링 기반 웹 애플리케이션 개발을 위한 관련 의존 추가]
+** `Spring MVC`, `JUnit5`, `JPA`, `...`
+* link:{git_service}{project_name}/issues/5[도커 컨테이너 기반의 개발용 데이터베이스 환경 구축]
+* link:{git_service}{project_name}/issues/11[MapStruct 도입]
 
 
 == License
