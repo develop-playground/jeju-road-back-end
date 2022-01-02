@@ -22,8 +22,11 @@ public class Address {
     @Column(nullable = false, length = 15)
     private String city;
 
+    @Column(nullable = false, length = 20)
+    private String simple;
+
     @Column(nullable = false, length = 50)
-    private String address;
+    private String detail;
 
     @Column(nullable = false, columnDefinition = "REAL")
     private double latitude;

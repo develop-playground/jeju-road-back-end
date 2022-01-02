@@ -10,7 +10,8 @@ Content-Type: application/json
   "zipcode": "28921",
   "state": "제주",
   "city": "제주시",
-  "address": "제주특별자치도 제주시 서사로 11",
+  "simple_address": "제주 시내",
+  "detail_address": "제주특별자치도 제주시 서사로 11",
   "latitude": 11.11,
   "longitude": 22.22
 }
