@@ -15,7 +15,8 @@ public interface RestaurantRequest {
         private String zipcode;
         private String state;
         private String city;
-        private String address;
+        private String simpleAddress;
+        private String detailAddress;
         private double latitude;
         private double longitude;
 
