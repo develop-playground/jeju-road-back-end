@@ -2,15 +2,17 @@ package com.jejuroad.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class HttpResponseBody<T> {
 
-    private final String code;
-    private final String message;
-    private final T information;
+    private String code;
+    private String message;
+    private T information;
 
     public static <T> HttpResponseBody.HttpResponseBodyBuilder<T> builder() {
         return new HttpResponseBody.HttpResponseBodyBuilder();
