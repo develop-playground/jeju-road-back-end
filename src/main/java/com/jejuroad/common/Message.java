@@ -20,5 +20,5 @@ public enum Message {
 
     private final HttpStatus httpStatus;
     private final String code;
-    private final String Message;
+    private final String message;
 }
