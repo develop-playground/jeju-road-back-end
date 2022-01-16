@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,9 +27,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.beneathPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.documentationConfiguration;
 
 @WebMvcTest
-@ExtendWith(SpringExtension.class)
+@ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
 public class WebLayerTest {
 
     @Autowired
@@ -39,9 +48,14 @@ public class WebLayerTest {
     private WebTestClient webTestClient;
 
     @BeforeEach
-    void setUp() {
+    void setUp(RestDocumentationContextProvider restDocumentation) {
         webTestClient = MockMvcWebTestClient
             .bindTo(mockMvc)
+            .filter(
+                documentationConfiguration(restDocumentation)
+                    .operationPreprocessors()
+                    .withRequestDefaults(prettyPrint())
+                    .withResponseDefaults(prettyPrint()))
             .build();
     }
 
@@ -81,7 +95,29 @@ public class WebLayerTest {
                 assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
                 assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
                 assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
-            });
+            })
+            .consumeWith(
+                document(
+                    "restaurants/register",
+                    requestFields(
+                        fieldWithPath("name").description("맛집의 이름"),
+                        fieldWithPath("categories").description("맛집의 종류"),
+                        fieldWithPath("introduction").description("맛집 소개"),
+                        fieldWithPath("wayToGo").description("가는방법"),
+                        fieldWithPath("zipcode").description("우편번호"),
+                        fieldWithPath("state").description("광역지방자치단체(시/도)"),
+                        fieldWithPath("city").description("기초지방자치단체(시/군/구)"),
+                        fieldWithPath("simpleAddress").description("간단한 주소"),
+                        fieldWithPath("detailAddress").description("상세 주소"),
+                        fieldWithPath("latitude").description("위도"),
+                        fieldWithPath("longitude").description("경도")
+                    ),
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("등록된 맛집의 식별자")
+                    )
+                )
+            );
 
         verify(restaurantService).register(requestDto);
     }
@@ -125,7 +161,21 @@ public class WebLayerTest {
                 assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
                 assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
                 assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
-            });
+            })
+            .consumeWith(
+                document(
+                    "restaurants/findAll",
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("맛집 식별자"),
+                        fieldWithPath("name").description("맛집의 이름"),
+                        fieldWithPath("categories").description("맛집의 종류"),
+                        fieldWithPath("address").description("맛집의 간단한 주소"),
+                        fieldWithPath("image").description("맛집의 대표 사진"),
+                        fieldWithPath("introduction").description("맛집 소개글")
+                    )
+                )
+            );
 
         verify(restaurantService).find();
     }
