@@ -13,12 +13,12 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class Pagination {
 
-  private Integer totalPage;
+    private Integer totalPage;
 
-  private Long totalElements;
+    private Long totalElements;
 
-  private Integer currentPage;
+    private Integer currentPage;
 
-  private Long currentElements;
+    private Long currentElements;
 
 }

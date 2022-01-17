@@ -37,8 +37,8 @@ public class HttpResponseBody<T> {
 
         public ResponseEntity<Object> buildAndMapToResponseEntity() {
             return ResponseEntity
-                    .status(message.getHttpStatus())
-                    .body(new HttpResponseBody(this.message.getCode(), this.message.getMessage(), this.information));
+                .status(message.getHttpStatus())
+                .body(new HttpResponseBody(this.message.getCode(), this.message.getMessage(), this.information));
         }
 
     }

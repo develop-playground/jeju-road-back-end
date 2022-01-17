@@ -23,16 +23,16 @@ public class RestaurantService {
         final Restaurant savedRestaurant = restaurantRepository.save(restaurant);
 
         return RestaurantResponse.Register.builder()
-                .id(savedRestaurant.getId())
-                .build();
+            .id(savedRestaurant.getId())
+            .build();
     }
 
     public List<RestaurantResponse.Find> find() {
         return restaurantRepository
-                .findAll()
-                .stream()
-                .map((domain) -> mapper.mapToFindFrom(domain))
-                .collect(Collectors.toList());
+            .findAll()
+            .stream()
+            .map((domain) -> mapper.mapToFindFrom(domain))
+            .collect(Collectors.toList());
     }
 
 }

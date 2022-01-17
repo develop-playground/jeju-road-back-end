@@ -1,7 +1,6 @@
 package com.jejuroad.common.mapper;
 
 import com.jejuroad.common.BusinessException;
-import com.jejuroad.common.Message;
 import com.jejuroad.domain.Category;
 import com.jejuroad.repository.CategoryRepository;
 import org.mapstruct.InjectionStrategy;
@@ -17,8 +16,8 @@ public abstract class CategoryMapper {
 
     public Category mapToCategoryFrom(String categoryName) {
         return categoryRepository
-            .findByName(categoryName)
-            .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NONE_CATEGORY));
+                .findByName(categoryName)
+                .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NONE_CATEGORY));
     }
 
     public String mapToStringFrom(Category category) {
