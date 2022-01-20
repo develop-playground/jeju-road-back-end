@@ -1,8 +1,8 @@
 package com.jejuroad.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
@@ -16,13 +16,13 @@ import javax.persistence.Id;
 import java.time.LocalTime;
 
 @Entity
-@Accessors
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class OpenTime {
 
-    enum Day {
+    public enum Day {
         MON, TUE, WED, THU, FRI, SAT, SUN;
     }
 

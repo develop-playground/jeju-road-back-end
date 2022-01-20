@@ -16,6 +16,11 @@ public enum Message {
         HttpStatus.BAD_REQUEST,
         "RESTAURANT-RES001",
         "존재하지 않는 맛집 카테고리입니다."
+    ),
+    RESTAURANT_RESPONSE_NOT_FOUND(
+        HttpStatus.NOT_FOUND,
+        "RESTAURANT-RES002",
+            "식별자에 해당하는 맛집이 존재하지 않습니다."
     );
 
     private final HttpStatus httpStatus;

@@ -6,6 +6,7 @@ import com.jejuroad.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,14 @@ public class RestaurantController {
                 .message(COMMON_RESPONSE_OK)
                 .information(restaurantService.find())
                 .buildAndMapToResponseEntity();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.findById(id))
+            .buildAndMapToResponseEntity();
     }
 
 }

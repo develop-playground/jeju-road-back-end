@@ -2,8 +2,8 @@ package com.jejuroad.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 
 @Entity
 @Builder
-@Accessors(chain = true)
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tip {

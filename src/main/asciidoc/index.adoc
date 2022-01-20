@@ -35,5 +35,14 @@ operation::restaurants/register[snippets='curl-request,http-request,request-fiel
 operation::restaurants/findAll[snippets='curl-request,http-request,http-response,response-fields-information']
 ****
 
+=== **[GET] /api/restaurants/{id} - 특정 맛집 상세 조회**
+****
+[discrete]
+==== Description
+시스템에 등록된 특정 맛집의 상세 정보를 조회합니다.
+
+operation::restaurants/findById[snippets='curl-request,http-request,path-parameters,http-response,response-fields-information']
+****
+
 
 
