@@ -24,17 +24,17 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity<Object> register(@RequestBody RestaurantRequest.Register request) {
         return HttpResponseBody.builder()
-                .message(COMMON_RESPONSE_OK)
-                .information(restaurantService.register(request))
-                .buildAndMapToResponseEntity();
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.register(request))
+            .buildAndMapToResponseEntity();
     }
 
     @GetMapping
     public ResponseEntity<Object> find() {
         return HttpResponseBody.builder()
-                .message(COMMON_RESPONSE_OK)
-                .information(restaurantService.find())
-                .buildAndMapToResponseEntity();
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.find())
+            .buildAndMapToResponseEntity();
     }
 
     @GetMapping("/{id}")

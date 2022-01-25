@@ -33,52 +33,52 @@ import static javax.persistence.GenerationType.IDENTITY;
 @EntityListeners(AuditingEntityListener.class)
 public class Restaurant {
 
-  @Id
-  @GeneratedValue(strategy = IDENTITY)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
 
-  @Column(nullable = false, length = 30)
-  private String name;
+    @Column(nullable = false, length = 30)
+    private String name;
 
-  @ManyToMany(cascade = {CascadeType.ALL})
-  @JoinTable(
-      name = "RESTAURANT_CATEGORY",
-      joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
-      inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
-  )
-  private List<Category> categories = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+        name = "RESTAURANT_CATEGORY",
+        joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
+        inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
+    )
+    private List<Category> categories = new ArrayList<>();
 
-  @Column(nullable = false, length = 70)
-  private String introduction;
+    @Column(nullable = false, length = 70)
+    private String introduction;
 
-  @Column(nullable = false, length = 50)
-  private String wayToGo;
+    @Column(nullable = false, length = 50)
+    private String wayToGo;
 
-  @Embedded
-  private Address address;
+    @Embedded
+    private Address address;
 
-  @ManyToMany(cascade = {CascadeType.ALL})
-  @JoinTable(
-      name = "RESTAURANT_TIP",
-      joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
-      inverseJoinColumns = @JoinColumn(name = "TIP_ID")
-  )
-  private List<Tip> tips = new ArrayList<>();
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+        name = "RESTAURANT_TIP",
+        joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
+        inverseJoinColumns = @JoinColumn(name = "TIP_ID")
+    )
+    private List<Tip> tips = new ArrayList<>();
 
-  @OneToMany
-  @JoinColumn(name = "RESTAURANT_ID")
-  private List<Menu> menus = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "RESTAURANT_ID")
+    private List<Menu> menus = new ArrayList<>();
 
-  @OneToMany
-  @JoinColumn(name = "RESTAURANT_ID")
-  private List<OpenTime> openTimes = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "RESTAURANT_ID")
+    private List<OpenTime> openTimes = new ArrayList<>();
 
-  @CreatedDate
-  @Column(name = "create_datetime", nullable = false)
-  private LocalDateTime createdAt;
+    @CreatedDate
+    @Column(name = "create_datetime", nullable = false)
+    private LocalDateTime createdAt;
 
-  @LastModifiedDate
-  @Column(name = "update_datetime", nullable = false)
-  private LocalDateTime updatedAt;
+    @LastModifiedDate
+    @Column(name = "update_datetime", nullable = false)
+    private LocalDateTime updatedAt;
 
 }
