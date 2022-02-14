@@ -37,6 +37,16 @@ public interface RestaurantMapper {
         return tips.stream().map(Tip::getContent).collect(Collectors.toList());
     }
 
+    default OpenTime map(RestaurantRequest.Register.OpenTime openTime) {
+        return OpenTime.builder()
+            .day(OpenTime.Day.valueOf(openTime.getDay().toUpperCase()))
+            .operationStart(openTime.getOperationStart())
+            .operationEnd(openTime.getOperationEnd())
+            .breakStart(openTime.getBreakStart())
+            .breakEnd(openTime.getBreakEnd())
+            .build();
+    }
+
     default RestaurantResponse.FindWithDetail.OpenTime map(OpenTime openTime) {
         return new RestaurantResponse.FindWithDetail.OpenTime(
             openTime.getDay().name(),

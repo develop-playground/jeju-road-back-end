@@ -22,10 +22,10 @@ public class Address {
     @Column(nullable = false, length = 15)
     private String city;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "simple_address", nullable = false, length = 20)
     private String simple;
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "detail_address", nullable = false, length = 50)
     private String detail;
 
     @Column(nullable = false, columnDefinition = "REAL")

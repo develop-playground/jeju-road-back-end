@@ -20,6 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.jejuroad.common.Message.COMMON_RESPONSE_OK;
@@ -40,7 +41,7 @@ import static org.springframework.restdocs.webtestclient.WebTestClientRestDocume
 
 @WebMvcTest
 @ExtendWith({RestDocumentationExtension.class, SpringExtension.class})
-public class WebLayerTest {
+public class RestaurantWebLayerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -79,6 +80,58 @@ public class WebLayerTest {
             .detailAddress("제주특별자치도 제주시 서사로 11")
             .latitude(11.11)
             .longitude(22.22)
+            .tipIds(List.of(1L, 2L))
+            .openTimes(List.of(
+                new RestaurantRequest.Register.OpenTime(
+                    "MONDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                ),
+                new RestaurantRequest.Register.OpenTime(
+                    "MONDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                ),
+                new RestaurantRequest.Register.OpenTime(
+                    "TUESDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                ),
+                new RestaurantRequest.Register.OpenTime(
+                    "WEDNESDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                ),
+                new RestaurantRequest.Register.OpenTime(
+                    "THURSDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                ),
+                new RestaurantRequest.Register.OpenTime(
+                    "FRIDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                ),
+                new RestaurantRequest.Register.OpenTime(
+                    "SATURDAY",
+                    LocalTime.of(9, 0, 0),
+                    LocalTime.of(21, 0, 0),
+                    LocalTime.of(14, 0, 0),
+                    LocalTime.of(16, 0, 0)
+                )
+            ))
             .build();
 
         when(restaurantService.register(requestDto)).thenReturn(expectedInformation);
@@ -113,7 +166,14 @@ public class WebLayerTest {
                         fieldWithPath("simpleAddress").description("간단한 주소"),
                         fieldWithPath("detailAddress").description("상세 주소"),
                         fieldWithPath("latitude").description("위도"),
-                        fieldWithPath("longitude").description("경도")
+                        fieldWithPath("longitude").description("경도"),
+                        fieldWithPath("tipIds").description("이용팁의 식별자"),
+                        subsectionWithPath("openTimes").description("이용가능시간"),
+                        fieldWithPath("openTimes.[].day").description("영업일의 요일"),
+                        fieldWithPath("openTimes.[].operationStart").description("영업 시작시간"),
+                        fieldWithPath("openTimes.[].operationEnd").description("영업 종료시간"),
+                        fieldWithPath("openTimes.[].breakStart").description("브레이크타임 시작시간"),
+                        fieldWithPath("openTimes.[].breakEnd").description("브레이크타임 종료시간")
                     ),
                     responseFields(
                         beneathPath("information").withSubsectionId("information"),
@@ -248,13 +308,13 @@ public class WebLayerTest {
                         fieldWithPath("menus.[].name").description("메뉴 이름"),
                         fieldWithPath("menus.[].price").description("메뉴 갸격"),
                         fieldWithPath("menus.[].image").description("메뉴 이미지 경로"),
-                        fieldWithPath("way_to_go").description("가는 방법"),
-                        fieldWithPath("simple_address").description("간단한 주소"),
-                        fieldWithPath("detail_address").description("상세 주소"),
-                        subsectionWithPath("open_times").description("이용가능시간"),
-                        fieldWithPath("open_times.[].day").description("요일"),
-                        fieldWithPath("open_times.[].serving_time").description("개장 시간"),
-                        fieldWithPath("open_times.[].break_time").description("브레이크 타임"),
+                        fieldWithPath("wayToGo").description("가는 방법"),
+                        fieldWithPath("simpleAddress").description("간단한 주소"),
+                        fieldWithPath("detailAddress").description("상세 주소"),
+                        subsectionWithPath("openTimes").description("이용가능시간"),
+                        fieldWithPath("openTimes.[].day").description("요일"),
+                        fieldWithPath("openTimes.[].servingTime").description("개장 시간"),
+                        fieldWithPath("openTimes.[].breakTime").description("브레이크 타임"),
                         fieldWithPath("introduction").description("맛집 소개글"),
                         fieldWithPath("tips").description("이용팁")
                     )

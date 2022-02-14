@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,6 +29,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Builder
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -69,7 +71,7 @@ public class Restaurant {
     @JoinColumn(name = "RESTAURANT_ID")
     private List<Menu> menus = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "RESTAURANT_ID")
     private List<OpenTime> openTimes = new ArrayList<>();
 
@@ -81,4 +83,7 @@ public class Restaurant {
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updatedAt;
 
+    public void setTips(final List<Tip> tips) {
+        this.tips = tips;
+    }
 }
