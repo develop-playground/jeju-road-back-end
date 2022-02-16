@@ -22,7 +22,7 @@ TIP: **'*'**는 필수적으로 포함되는 항목입니다.
 ==== Description
 시스템에 맛집 등록을 요청합니다.
 
-operation::restaurants/register[snippets='curl-request,http-request,request-fields,http-response,response-fields-information']
+operation::restaurants/register[snippets='http-request,request-fields,http-response,response-fields-information']
 ****
 
 
@@ -32,7 +32,7 @@ operation::restaurants/register[snippets='curl-request,http-request,request-fiel
 ==== Description
 시스템에 등록된 맛집의 목록을 조회합니다.
 
-operation::restaurants/findAll[snippets='curl-request,http-request,http-response,response-fields-information']
+operation::restaurants/findAll[snippets='http-request,http-response,response-fields-information']
 ****
 
 === **[GET] /api/restaurants/{id} - 특정 맛집 상세 조회**
@@ -41,7 +41,7 @@ operation::restaurants/findAll[snippets='curl-request,http-request,http-response
 ==== Description
 시스템에 등록된 특정 맛집의 상세 정보를 조회합니다.
 
-operation::restaurants/findById[snippets='curl-request,http-request,path-parameters,http-response,response-fields-information']
+operation::restaurants/findById[snippets='http-request,path-parameters,http-response,response-fields-information']
 ****
 
 

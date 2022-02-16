@@ -3,17 +3,68 @@ POST http://localhost:8080/api/restaurants
 Content-Type: application/json
 
 {
-  "name": "우진해장국",
-  "categories": ["restaurant", "caffe"],
-  "introduction": "'수요미식회'에 방영된, 따끈한 국물 요리로 해장하기 좋은 음식점",
-  "way_to_go": "동문 재래 시장에서 도보 9분",
-  "zipcode": "28921",
-  "state": "제주",
-  "city": "제주시",
-  "simple_address": "제주 시내",
-  "detail_address": "제주특별자치도 제주시 서사로 11",
-  "latitude": 11.11,
-  "longitude": 22.22
+    "name": "우진해장국",
+    "categories": [
+        "restaurant",
+        "caffe"
+    ],
+    "introduction": "'수요미식회'에 방영된, 따끈한 국물 요리로 해장하기 좋은 음식점",
+    "wayToGo": "동문 재래 시장에서 도보 9분",
+    "zipcode": "28921",
+    "state": "제주",
+    "city": "제주시",
+    "simpleAddress": "제주 시내",
+    "detailAddress": "제주특별자치도 제주시 서사로 11",
+    "latitude": 11.11,
+    "longitude": 22.22,
+    "tipIds": [
+        1,
+        2
+    ],
+    "openTimes": [
+        {
+            "day": "MONDAY",
+            "operationStart": "09:00:00",
+            "operationEnd": "21:00:00",
+            "breakStart": "14:00:00",
+            "breakEnd": "16:00:00"
+        },
+        {
+            "day": "TUESDAY",
+            "operationStart": "09:00:00",
+            "operationEnd": "21:00:00",
+            "breakStart": "14:00:00",
+            "breakEnd": "16:00:00"
+        },
+        {
+            "day": "WEDNESDAY",
+            "operationStart": "09:00:00",
+            "operationEnd": "21:00:00",
+            "breakStart": "14:00:00",
+            "breakEnd": "16:00:00"
+        },
+        {
+            "day": "THURSDAY",
+            "operationStart": "09:00:00",
+            "operationEnd": "21:00:00",
+            "breakStart": "14:00:00",
+            "breakEnd": "16:00:00"
+        },
+        {
+            "day": "FRIDAY",
+            "operationStart": "09:00:00",
+            "operationEnd": "21:00:00",
+            "breakStart": "14:00:00",
+            "breakEnd": "16:00:00"
+        },
+        {
+            "day": "SATURDAY",
+            "operationStart": "09:00:00",
+            "operationEnd": "21:00:00",
+            "breakStart": "14:00:00",
+            "breakEnd": "16:00:00"
+        }
+    ]
 }
 
 ### 맛집 조회

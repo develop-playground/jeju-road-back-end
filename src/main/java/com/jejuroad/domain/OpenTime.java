@@ -1,8 +1,10 @@
 package com.jejuroad.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
@@ -17,13 +19,15 @@ import java.time.LocalTime;
 
 @Entity
 @Getter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class OpenTime {
 
     public enum Day {
-        MON, TUE, WED, THU, FRI, SAT, SUN;
+        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
     }
 
     @Id
@@ -31,7 +35,7 @@ public class OpenTime {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 5)
+    @Column(nullable = false, length = 10)
     private Day day;
 
     @Column(nullable = false)
