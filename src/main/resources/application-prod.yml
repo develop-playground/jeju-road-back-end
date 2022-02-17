@@ -1,5 +1,9 @@
 spring:
-  datasource:
-    username: postgres
-    password: DEVPG123!@#
-    url: jdbc:postgresql://220.82.24.198:5432/postgres?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    datasource:
+        username: postgres
+        password: DEVPG123!@#
+        url: jdbc:postgresql://183.107.10.236:5432/devpg?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    jpa:
+        hibernate:
+            ddl-auto: none
+        show-sql: true
