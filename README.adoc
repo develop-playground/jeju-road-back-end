@@ -1,4 +1,4 @@
-:revision: 2022.03.0
+:revision: 2022.07.0
 :icons: font
 :main-title: Jeju-Road
 :sub-title: Back-end
@@ -22,8 +22,8 @@ image:https://img.shields.io/badge/version-{revision}-blue.svg[link="./CHANGELOG
 == Status
 
 
-* link:./CHANGELOG[History]
-* link:{git_service}{project_name}/wiki[Issues wiki] / link:{git_service}{project_name}/issues[Issues List]
+* link:http://183.107.10.236:8080/docs/index.html[API Documents]
+* link:{git_service}{project_name}/wiki[Wiki] / link:{git_service}{project_name}/issues[Issues]
 
 
 == Building
