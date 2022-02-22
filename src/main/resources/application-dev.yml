@@ -1,9 +1,9 @@
 spring:
-  datasource:
-    username: playground
-    password: 83291b54fd7b7e97a4aa5944390e643b67f43fd1970e3c45217e5ad83aedb151
-    url: jdbc:postgresql://localhost:15432/jeju_road?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
-  jpa:
-    hibernate:
-      ddl-auto: create
-    show-sql: true
+    datasource:
+        username: playground
+        password: 83291b54fd7b7e97a4aa5944390e643b67f43fd1970e3c45217e5ad83aedb151
+        url: jdbc:postgresql://localhost:15432/jeju_road?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul
+    jpa:
+        hibernate:
+            ddl-auto: create
+        show-sql: true
