@@ -23,4 +23,4 @@ GET http://localhost:8080/api/restaurants
 GET http://localhost:8080/api/restaurants/1
 
 ### 카테고리 조회
-GET http://localhost:8080/api/categories
+GET http://localhost:8080/api/restaurants/categories
