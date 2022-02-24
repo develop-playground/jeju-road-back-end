@@ -47,7 +47,7 @@ public class RestaurantController {
             .buildAndMapToResponseEntity();
     }
 
-    @RequestMapping("/categories")
+    @GetMapping("/categories")
     public ResponseEntity<Object> findCategory() {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
