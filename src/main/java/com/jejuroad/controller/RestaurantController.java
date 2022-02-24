@@ -2,8 +2,11 @@ package com.jejuroad.controller;
 
 import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.dto.RestaurantRequest;
+import com.jejuroad.dto.RestaurantResponse;
 import com.jejuroad.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,10 +33,10 @@ public class RestaurantController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> find() {
+    public ResponseEntity<Object> find(Pageable pageable, PagedResourcesAssembler<RestaurantResponse.Find> assembler) {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
-            .information(restaurantService.find())
+            .information(assembler.toModel(restaurantService.find(pageable)))
             .buildAndMapToResponseEntity();
     }
 

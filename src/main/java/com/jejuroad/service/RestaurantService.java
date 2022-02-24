@@ -9,7 +9,8 @@ import com.jejuroad.dto.RestaurantResponse;
 import com.jejuroad.repository.RestaurantRepository;
 import com.jejuroad.repository.TipRepository;
 import lombok.AllArgsConstructor;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +33,6 @@ public class RestaurantService {
             .map(id -> tipRepository.findById(id).orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NONE_TIP)))
             .collect(Collectors.toList());
         restaurant.setTips(tips);
-        LoggerFactory.getLogger("AAA===").info(restaurant.toString());
         final Restaurant savedRestaurant = restaurantRepository.save(restaurant);
 
         return RestaurantResponse.Register.builder()
@@ -40,17 +40,14 @@ public class RestaurantService {
             .build();
     }
 
-    public List<RestaurantResponse.Find> find() {
+    public Page<RestaurantResponse.Find> find(Pageable pageable) {
         return restaurantRepository
-            .findAll()
-            .stream()
-            .map((domain) -> mapper.mapToFindFrom(domain))
-            .collect(Collectors.toList());
+            .findAll(pageable)
+            .map((domain) -> mapper.mapToFindFrom(domain));
     }
 
     public RestaurantResponse.FindWithDetail findById(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
-        System.out.println(restaurant);
         return mapper.mapToFindWithDetailFrom(restaurant);
     }
 
