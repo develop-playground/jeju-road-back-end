@@ -2,8 +2,8 @@ package com.jejuroad.controller;
 
 import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.dto.RestaurantRequest;
-import com.jejuroad.service.CategoryService;
 import com.jejuroad.service.RestaurantService;
+import com.jejuroad.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
