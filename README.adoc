@@ -1,4 +1,4 @@
-:revision: 2022.07.0
+:revision: 2022.08.0
 :icons: font
 :main-title: Jeju-Road
 :sub-title: Back-end
@@ -65,5 +65,7 @@ $ cd {project_name}
 
 == Contributors
 
-* Jeon Cheolho <woung2770@gmail.com>
-* ...
+* Cheolho Jeon <woung2770@gmail.com>
+* Byeongsoon Jang <byeongsoon94@kakao.com>
+* Daewon Park <moochi@kakao.com>
+* Soonho Hwang <tnsgh211@gmail.com>
