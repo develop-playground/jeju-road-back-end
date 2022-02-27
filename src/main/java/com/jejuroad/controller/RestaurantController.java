@@ -4,6 +4,7 @@ import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.dto.RestaurantRequest;
 import com.jejuroad.dto.RestaurantResponse;
 import com.jejuroad.service.RestaurantService;
+import com.jejuroad.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -23,6 +24,7 @@ import static com.jejuroad.common.Message.COMMON_RESPONSE_OK;
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
+    private final CategoryService categoryService;
 
     @PostMapping
     public ResponseEntity<Object> register(@RequestBody RestaurantRequest.Register request) {
@@ -45,6 +47,14 @@ public class RestaurantController {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
             .information(restaurantService.findById(id))
+            .buildAndMapToResponseEntity();
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<Object> findCategory() {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(categoryService.find())
             .buildAndMapToResponseEntity();
     }
 

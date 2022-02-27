@@ -2,8 +2,10 @@ package com.jejuroad;
 
 import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.common.Message;
+import com.jejuroad.dto.CategoryResponse;
 import com.jejuroad.dto.RestaurantRequest;
 import com.jejuroad.dto.RestaurantResponse;
+import com.jejuroad.service.CategoryService;
 import com.jejuroad.service.RestaurantService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -54,6 +56,9 @@ public class RestaurantWebLayerTest {
 
     @MockBean
     private RestaurantService restaurantService;
+
+    @MockBean
+    private CategoryService categoryService;
 
     private WebTestClient webTestClient;
 
@@ -366,6 +371,49 @@ public class RestaurantWebLayerTest {
             );
 
         verify(restaurantService).findById(1L);
+    }
+
+    @Test
+    @DisplayName("카테고리 목록 조회 성공 테스트")
+    void testFindCategories() {
+        final Message expectedMessage = COMMON_RESPONSE_OK;
+        final List<CategoryResponse.Find> expectedInformation = List.of(
+            new CategoryResponse.Find(
+                "CAFFE"
+            ),
+            new CategoryResponse.Find(
+                "RESTAURANT"
+            )
+        );
+
+        when(categoryService.find()).thenReturn(expectedInformation);
+
+        webTestClient
+            .get()
+            .uri("/api/restaurants/categories")
+            .accept(APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().valueEquals("Content-Type", "application/json")
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<List<CategoryResponse.Find>>>() {
+            })
+            .consumeWith(response -> {
+                HttpResponseBody<List<CategoryResponse.Find>> responseBody = response.getResponseBody();
+                assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
+                assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
+                assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
+            })
+            .consumeWith(
+                document(
+                    "categories/findAll",
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("name").description("카테고리의 이름")
+                    )
+                )
+            );
+
+        verify(categoryService).find();
     }
 
 

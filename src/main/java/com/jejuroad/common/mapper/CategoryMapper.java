@@ -2,9 +2,11 @@ package com.jejuroad.common.mapper;
 
 import com.jejuroad.common.BusinessException;
 import com.jejuroad.domain.Category;
+import com.jejuroad.dto.CategoryResponse;
 import com.jejuroad.repository.CategoryRepository;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static com.jejuroad.common.Message.RESTAURANT_RESPONSE_NONE_CATEGORY;
@@ -22,6 +24,12 @@ public abstract class CategoryMapper {
 
     public String mapToStringFrom(Category category) {
         return category.getName();
+    }
+
+    public CategoryResponse.Find mapToFindFrom(Category category) {
+        return CategoryResponse.Find.builder()
+            .name(category.getName())
+            .build();
     }
 
     @Autowired
