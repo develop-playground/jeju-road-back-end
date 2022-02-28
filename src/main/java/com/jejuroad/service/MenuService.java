@@ -25,16 +25,6 @@ public class MenuService {
         final Menu menu = mapper.mapToMenuFrom(request);
         System.out.println(menu.getName());
 
-        /*
-        // mapper가 제대로 동작하지 않아서 Menu 오류 발생 -> 왜 의도대로 동작하지 않는가?
-        //  -> MenuMapper에 @Mapping 애노테이션 붙이니 제대로 동작
-        final Menu menu = Menu.builder()
-            .name(request.getName())
-            .price(request.getPrice())
-            .image(request.getImage())
-            .build();
-         */
-
         final Restaurant restaurant = restaurantRepository.findById(request.getRestaurantId())
             .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
         menu.setRestaurant(restaurant);
