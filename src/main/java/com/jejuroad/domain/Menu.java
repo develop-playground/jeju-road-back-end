@@ -1,21 +1,15 @@
 package com.jejuroad.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,6 +23,9 @@ public class Menu {
     private String name;
 
     @Column(nullable = false)
+    private String image;
+
+    @Column(nullable = false)
     private int price;
 
     @CreatedDate
@@ -39,4 +36,10 @@ public class Menu {
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    private Restaurant restaurant;
+
+    public void setRestaurant(final Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
 }

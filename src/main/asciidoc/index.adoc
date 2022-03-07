@@ -60,3 +60,14 @@ operation::restaurants/findById[snippets='http-request,path-parameters,http-resp
 
 operation::categories/findAll[snippets='curl-request,http-request,http-response,response-fields-information']
 ****
+
+== Menu
+
+=== **[POST] /api/menus - 메뉴 등록**
+****
+[discrete]
+==== Description
+시스템에 메뉴 등록을 요청합니다.
+
+operation::menus/register[snippets='http-request,request-fields,http-response,response-fields-information']
+****
