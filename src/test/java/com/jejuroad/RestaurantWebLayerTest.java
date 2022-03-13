@@ -2,11 +2,10 @@ package com.jejuroad;
 
 import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.common.Message;
-import com.jejuroad.dto.CategoryResponse;
-import com.jejuroad.dto.RestaurantRequest;
-import com.jejuroad.dto.RestaurantResponse;
+import com.jejuroad.dto.*;
 import com.jejuroad.service.CategoryService;
 import com.jejuroad.dto.TipResponse;
+import com.jejuroad.service.MenuService;
 import com.jejuroad.service.RestaurantService;
 import com.jejuroad.service.TipService;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,6 +63,9 @@ public class RestaurantWebLayerTest {
 
     @MockBean
     private TipService tipservice;
+
+    @MockBean
+    private MenuService menuService;
 
     private WebTestClient webTestClient;
 
@@ -423,6 +425,56 @@ public class RestaurantWebLayerTest {
 
     @Test
     @DisplayName("이용팁 목록 조회 성공 테스트")
+@Test
+    @DisplayName("메뉴 등록 성공 테스트")
+    void testRegisteringMenu() {
+        final Message expectedMessage = COMMON_RESPONSE_OK;
+        final MenuResponse.Register expectedInformation = new MenuResponse.Register(1L);
+        final MenuRequest.Register requestDto = MenuRequest.Register.builder()
+            .name("고사리 해장국")
+            .image("/images/image_003")
+            .price(9000)
+            .restaurantId(1L)
+            .build();
+
+        when(menuService.register(requestDto)).thenReturn(expectedInformation);
+
+        webTestClient
+            .post()
+            .uri("/api/menus")
+            .accept(APPLICATION_JSON)
+            .bodyValue(requestDto)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().valueEquals("Content-Type", "application/json")
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<MenuResponse.Register>>() {
+            })
+            .consumeWith(response -> {
+                HttpResponseBody<MenuResponse.Register> responseBody = response.getResponseBody();
+                assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
+                assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
+                assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
+            })
+            .consumeWith(
+                document(
+                    "menus/register",
+                    requestFields(
+                        fieldWithPath("name").description("메뉴 이름"),
+                        fieldWithPath("price").description("메뉴 가격"),
+                        fieldWithPath("image").description("메뉴 이미지 경로"),
+                        fieldWithPath("restaurantId").description("메뉴가 등록될 맛집 식별자")
+                    ),
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("등록된 메뉴 식별자")
+                    )
+                )
+            );
+        verify(menuService).register(requestDto);
+    }
+
+    @Test
+    @DisplayName("이용팁 목록 조회 성공 테스트")
     void testFindTips() {
         final Message expectedMessage = COMMON_RESPONSE_OK;
         final List<TipResponse.Find> expectedResult = List.of(
@@ -466,6 +518,8 @@ public class RestaurantWebLayerTest {
 
         verify(tipservice).find();
     }
+
+}
 
 
 }
