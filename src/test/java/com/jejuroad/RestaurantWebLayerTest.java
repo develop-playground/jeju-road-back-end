@@ -4,8 +4,10 @@ import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.common.Message;
 import com.jejuroad.dto.*;
 import com.jejuroad.service.CategoryService;
+import com.jejuroad.dto.TipResponse;
 import com.jejuroad.service.MenuService;
 import com.jejuroad.service.RestaurantService;
+import com.jejuroad.service.TipService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,6 +60,9 @@ public class RestaurantWebLayerTest {
 
     @MockBean
     private CategoryService categoryService;
+
+    @MockBean
+    private TipService tipservice;
 
     @MockBean
     private MenuService menuService;
@@ -419,6 +424,8 @@ public class RestaurantWebLayerTest {
     }
 
     @Test
+    @DisplayName("이용팁 목록 조회 성공 테스트")
+@Test
     @DisplayName("메뉴 등록 성공 테스트")
     void testRegisteringMenu() {
         final Message expectedMessage = COMMON_RESPONSE_OK;
@@ -463,8 +470,56 @@ public class RestaurantWebLayerTest {
                     )
                 )
             );
-
         verify(menuService).register(requestDto);
     }
+
+    @Test
+    @DisplayName("이용팁 목록 조회 성공 테스트")
+    void testFindTips() {
+        final Message expectedMessage = COMMON_RESPONSE_OK;
+        final List<TipResponse.Find> expectedResult = List.of(
+            new TipResponse.Find(
+                1L,
+                "First Tip"
+            ),
+            new TipResponse.Find(
+                2L,
+                "Second Tip"
+            )
+        );
+
+        when(tipservice.find()).thenReturn(expectedResult);
+
+        webTestClient
+            .get()
+            .uri("/api/restaurants/tips")
+            .accept(APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().valueEquals("Content-Type", "application/json")
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<List<TipResponse.Find>>>() {
+            })
+            .consumeWith(response -> {
+                HttpResponseBody<List<TipResponse.Find>> responseBody = response.getResponseBody();
+                assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
+                assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
+                assertThat(responseBody.getInformation()).isEqualTo(expectedResult);
+            })
+            .consumeWith(
+                document(
+                    "tips/findAll",
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("팁 식별자"),
+                        fieldWithPath("content").description("팁 내용")
+                    )
+                )
+            );
+
+        verify(tipservice).find();
+    }
+
+}
+
 
 }
