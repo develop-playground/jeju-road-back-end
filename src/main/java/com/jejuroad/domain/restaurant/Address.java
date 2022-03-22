@@ -1,16 +1,18 @@
-package com.jejuroad.domain;
+package com.jejuroad.domain.restaurant;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import static lombok.AccessLevel.PACKAGE;
+
 @Embeddable
-@Data
-@AllArgsConstructor
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
 public class Address {
 
     @Column(nullable = false, length = 7)

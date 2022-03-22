@@ -1,38 +1,29 @@
-package com.jejuroad.domain;
+package com.jejuroad.domain.restaurant;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalTime;
 
-@Entity
-@Getter
-@Builder
-@ToString
+import static lombok.AccessLevel.PACKAGE;
+
+@Embeddable
+@Getter(PACKAGE)
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
 @EntityListeners(AuditingEntityListener.class)
 public class OpenTime {
 
     public enum Day {
-        MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+        MON, TUE, WED, THU, FRI, SAT, SUN;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)

@@ -25,6 +25,7 @@ public interface RestaurantRequest {
         private double latitude;
         private double longitude;
         private List<Long> tipIds;
+        private List<String> images;
         private List<OpenTime> openTimes;
 
         public List<String> getCategories() {
@@ -45,6 +46,15 @@ public interface RestaurantRequest {
             private LocalTime breakEnd;
         }
     }
+
+    @Data
+    @Builder
+    class RegisterMenu {
+        private String name;
+        private String image;
+        private Integer price;
+    }
+
 }
 
 

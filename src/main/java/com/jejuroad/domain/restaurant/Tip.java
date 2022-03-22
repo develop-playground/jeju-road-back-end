@@ -1,7 +1,6 @@
-package com.jejuroad.domain;
+package com.jejuroad.domain.restaurant;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,11 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import static lombok.AccessLevel.PACKAGE;
+
 @Entity
-@Builder
-@Getter
+@Getter(PACKAGE)
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
 public class Tip {
 
     @Id

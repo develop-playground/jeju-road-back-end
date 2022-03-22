@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+
 @Getter
 @AllArgsConstructor
 public enum Message {
@@ -13,7 +15,7 @@ public enum Message {
         "요청이 성공적으로 수행되었습니다."
     ),
     RESTAURANT_RESPONSE_NONE_CATEGORY(
-        HttpStatus.BAD_REQUEST,
+        BAD_REQUEST,
         "RESTAURANT-RES001",
         "존재하지 않는 맛집 카테고리입니다."
     ),
@@ -23,9 +25,14 @@ public enum Message {
             "식별자에 해당하는 맛집이 존재하지 않습니다."
     ),
     RESTAURANT_RESPONSE_NONE_TIP(
-        HttpStatus.BAD_REQUEST,
+        BAD_REQUEST,
         "RESTAURANT-RES003",
         "존재하지 않는 이용팁입니다."
+    ),
+    RESTAURANT_RESPONSE_DUPLICATED_MENU_NAME(
+        BAD_REQUEST,
+        "RESTAURANT-RES004",
+        "이미 같은 이름의 메뉴가 해당 맛집에 존재합니다."
     );
 
     private final HttpStatus httpStatus;

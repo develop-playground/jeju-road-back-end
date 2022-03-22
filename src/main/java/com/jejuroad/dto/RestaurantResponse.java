@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public interface RestaurantResponse {
 
     @Data
-    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     class Register {
@@ -39,7 +37,6 @@ public interface RestaurantResponse {
     class FindWithDetail {
         private Long id;
         private String name;
-        private List<String> images = new ArrayList<>();
         private List<Menu> menus;
         private String wayToGo;
         private String simpleAddress;
@@ -47,6 +44,7 @@ public interface RestaurantResponse {
         private List<OpenTime> openTimes;
         private String introduction;
         private List<String> tips;
+        private List<String> images;
 
         @Data
         @Builder
@@ -68,6 +66,28 @@ public interface RestaurantResponse {
             private String servingTime;
             private String breakTime;
         }
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    class RegisterMenu {
+        private Long id;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    class FindCategory {
+        String name;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    class FindTip {
+        Long id;
+        String content;
     }
 
 }

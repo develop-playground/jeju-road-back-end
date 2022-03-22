@@ -3,11 +3,7 @@ package com.jejuroad;
 import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.common.Message;
 import com.jejuroad.dto.*;
-import com.jejuroad.service.CategoryService;
-import com.jejuroad.dto.TipResponse;
-import com.jejuroad.service.MenuService;
 import com.jejuroad.service.RestaurantService;
-import com.jejuroad.service.TipService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,15 +54,6 @@ public class RestaurantWebLayerTest {
     @MockBean
     private RestaurantService restaurantService;
 
-    @MockBean
-    private CategoryService categoryService;
-
-    @MockBean
-    private TipService tipservice;
-
-    @MockBean
-    private MenuService menuService;
-
     private WebTestClient webTestClient;
 
     @BeforeEach
@@ -101,54 +88,52 @@ public class RestaurantWebLayerTest {
             .tipIds(List.of(1L, 2L))
             .openTimes(List.of(
                 new RestaurantRequest.Register.OpenTime(
-                    "MONDAY",
+                    "MON",
                     LocalTime.of(9, 0, 0),
                     LocalTime.of(21, 0, 0),
                     LocalTime.of(14, 0, 0),
                     LocalTime.of(16, 0, 0)
                 ),
                 new RestaurantRequest.Register.OpenTime(
-                    "MONDAY",
+                    "TUE",
                     LocalTime.of(9, 0, 0),
                     LocalTime.of(21, 0, 0),
                     LocalTime.of(14, 0, 0),
                     LocalTime.of(16, 0, 0)
                 ),
                 new RestaurantRequest.Register.OpenTime(
-                    "TUESDAY",
+                    "WED",
                     LocalTime.of(9, 0, 0),
                     LocalTime.of(21, 0, 0),
                     LocalTime.of(14, 0, 0),
                     LocalTime.of(16, 0, 0)
                 ),
                 new RestaurantRequest.Register.OpenTime(
-                    "WEDNESDAY",
+                    "THU",
                     LocalTime.of(9, 0, 0),
                     LocalTime.of(21, 0, 0),
                     LocalTime.of(14, 0, 0),
                     LocalTime.of(16, 0, 0)
                 ),
                 new RestaurantRequest.Register.OpenTime(
-                    "THURSDAY",
+                    "FRI",
                     LocalTime.of(9, 0, 0),
                     LocalTime.of(21, 0, 0),
                     LocalTime.of(14, 0, 0),
                     LocalTime.of(16, 0, 0)
                 ),
                 new RestaurantRequest.Register.OpenTime(
-                    "FRIDAY",
-                    LocalTime.of(9, 0, 0),
-                    LocalTime.of(21, 0, 0),
-                    LocalTime.of(14, 0, 0),
-                    LocalTime.of(16, 0, 0)
-                ),
-                new RestaurantRequest.Register.OpenTime(
-                    "SATURDAY",
+                    "SAT",
                     LocalTime.of(9, 0, 0),
                     LocalTime.of(21, 0, 0),
                     LocalTime.of(14, 0, 0),
                     LocalTime.of(16, 0, 0)
                 )
+            ))
+            .images(List.of(
+                "image/001.jpg",
+                "image/002.jpg",
+                "image/003.jpg"
             ))
             .build();
 
@@ -191,7 +176,8 @@ public class RestaurantWebLayerTest {
                         fieldWithPath("openTimes.[].operationStart").description("영업 시작시간"),
                         fieldWithPath("openTimes.[].operationEnd").description("영업 종료시간"),
                         fieldWithPath("openTimes.[].breakStart").description("브레이크타임 시작시간"),
-                        fieldWithPath("openTimes.[].breakEnd").description("브레이크타임 종료시간")
+                        fieldWithPath("openTimes.[].breakEnd").description("브레이크타임 종료시간"),
+                        fieldWithPath("images").description("맛집의 사진 목록")
                     ),
                     responseFields(
                         beneathPath("information").withSubsectionId("information"),
@@ -358,7 +344,6 @@ public class RestaurantWebLayerTest {
                         beneathPath("information").withSubsectionId("information"),
                         fieldWithPath("id").description("맛집 식별자"),
                         fieldWithPath("name").description("맛집의 이름"),
-                        fieldWithPath("images").description("맛집의 사진 목록"),
                         subsectionWithPath("menus").description("메뉴 목록"),
                         fieldWithPath("menus.[].id").description("메뉴 식별자"),
                         fieldWithPath("menus.[].name").description("메뉴 이름"),
@@ -372,7 +357,8 @@ public class RestaurantWebLayerTest {
                         fieldWithPath("openTimes.[].servingTime").description("개장 시간"),
                         fieldWithPath("openTimes.[].breakTime").description("브레이크 타임"),
                         fieldWithPath("introduction").description("맛집 소개글"),
-                        fieldWithPath("tips").description("이용팁")
+                        fieldWithPath("tips").description("이용팁"),
+                        fieldWithPath("images").description("맛집의 사진 목록")
                     )
                 )
             );
@@ -384,16 +370,16 @@ public class RestaurantWebLayerTest {
     @DisplayName("카테고리 목록 조회 성공 테스트")
     void testFindCategories() {
         final Message expectedMessage = COMMON_RESPONSE_OK;
-        final List<CategoryResponse.Find> expectedInformation = List.of(
-            new CategoryResponse.Find(
+        final List<RestaurantResponse.FindCategory> expectedInformation = List.of(
+            new RestaurantResponse.FindCategory(
                 "CAFFE"
             ),
-            new CategoryResponse.Find(
+            new RestaurantResponse.FindCategory(
                 "RESTAURANT"
             )
         );
 
-        when(categoryService.find()).thenReturn(expectedInformation);
+        when(restaurantService.findCategories()).thenReturn(expectedInformation);
 
         webTestClient
             .get()
@@ -402,10 +388,10 @@ public class RestaurantWebLayerTest {
             .exchange()
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", "application/json")
-            .expectBody(new ParameterizedTypeReference<HttpResponseBody<List<CategoryResponse.Find>>>() {
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<List<RestaurantResponse.FindCategory>>>() {
             })
             .consumeWith(response -> {
-                HttpResponseBody<List<CategoryResponse.Find>> responseBody = response.getResponseBody();
+                HttpResponseBody<List<RestaurantResponse.FindCategory>> responseBody = response.getResponseBody();
                 assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
                 assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
                 assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
@@ -420,37 +406,34 @@ public class RestaurantWebLayerTest {
                 )
             );
 
-        verify(categoryService).find();
+        verify(restaurantService).findCategories();
     }
 
     @Test
-    @DisplayName("이용팁 목록 조회 성공 테스트")
-@Test
     @DisplayName("메뉴 등록 성공 테스트")
     void testRegisteringMenu() {
         final Message expectedMessage = COMMON_RESPONSE_OK;
-        final MenuResponse.Register expectedInformation = new MenuResponse.Register(1L);
-        final MenuRequest.Register requestDto = MenuRequest.Register.builder()
+        final RestaurantResponse.RegisterMenu expectedInformation = new RestaurantResponse.RegisterMenu(1L);
+        final RestaurantRequest.RegisterMenu requestDto = RestaurantRequest.RegisterMenu.builder()
             .name("고사리 해장국")
             .image("/images/image_003")
             .price(9000)
-            .restaurantId(1L)
             .build();
 
-        when(menuService.register(requestDto)).thenReturn(expectedInformation);
+        when(restaurantService.registerMenu(1L, requestDto)).thenReturn(expectedInformation);
 
         webTestClient
             .post()
-            .uri("/api/menus")
+            .uri("/api/restaurants/{restaurantId}/menus", 1L)
             .accept(APPLICATION_JSON)
             .bodyValue(requestDto)
             .exchange()
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", "application/json")
-            .expectBody(new ParameterizedTypeReference<HttpResponseBody<MenuResponse.Register>>() {
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<RestaurantResponse.RegisterMenu>>() {
             })
             .consumeWith(response -> {
-                HttpResponseBody<MenuResponse.Register> responseBody = response.getResponseBody();
+                HttpResponseBody<RestaurantResponse.RegisterMenu> responseBody = response.getResponseBody();
                 assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
                 assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
                 assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
@@ -458,11 +441,13 @@ public class RestaurantWebLayerTest {
             .consumeWith(
                 document(
                     "menus/register",
+                    pathParameters(
+                        parameterWithName("restaurantId").description("메뉴를 등록할 맛집의 식별자")
+                    ),
                     requestFields(
                         fieldWithPath("name").description("메뉴 이름"),
                         fieldWithPath("price").description("메뉴 가격"),
-                        fieldWithPath("image").description("메뉴 이미지 경로"),
-                        fieldWithPath("restaurantId").description("메뉴가 등록될 맛집 식별자")
+                        fieldWithPath("image").description("메뉴 이미지 경로")
                     ),
                     responseFields(
                         beneathPath("information").withSubsectionId("information"),
@@ -470,25 +455,25 @@ public class RestaurantWebLayerTest {
                     )
                 )
             );
-        verify(menuService).register(requestDto);
+        verify(restaurantService).registerMenu(1L, requestDto);
     }
 
     @Test
     @DisplayName("이용팁 목록 조회 성공 테스트")
     void testFindTips() {
         final Message expectedMessage = COMMON_RESPONSE_OK;
-        final List<TipResponse.Find> expectedResult = List.of(
-            new TipResponse.Find(
+        final List<RestaurantResponse.FindTip> expectedResult = List.of(
+            new RestaurantResponse.FindTip(
                 1L,
                 "First Tip"
             ),
-            new TipResponse.Find(
+            new RestaurantResponse.FindTip(
                 2L,
                 "Second Tip"
             )
         );
 
-        when(tipservice.find()).thenReturn(expectedResult);
+        when(restaurantService.findTips()).thenReturn(expectedResult);
 
         webTestClient
             .get()
@@ -497,10 +482,10 @@ public class RestaurantWebLayerTest {
             .exchange()
             .expectStatus().isOk()
             .expectHeader().valueEquals("Content-Type", "application/json")
-            .expectBody(new ParameterizedTypeReference<HttpResponseBody<List<TipResponse.Find>>>() {
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<List<RestaurantResponse.FindTip>>>() {
             })
             .consumeWith(response -> {
-                HttpResponseBody<List<TipResponse.Find>> responseBody = response.getResponseBody();
+                HttpResponseBody<List<RestaurantResponse.FindTip>> responseBody = response.getResponseBody();
                 assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
                 assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
                 assertThat(responseBody.getInformation()).isEqualTo(expectedResult);
@@ -516,10 +501,7 @@ public class RestaurantWebLayerTest {
                 )
             );
 
-        verify(tipservice).find();
+        verify(restaurantService).findTips();
     }
-
-}
-
 
 }
