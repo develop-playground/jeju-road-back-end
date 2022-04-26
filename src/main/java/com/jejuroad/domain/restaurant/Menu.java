@@ -1,4 +1,4 @@
-package com.jejuroad.domain;
+package com.jejuroad.domain.restaurant;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,23 +8,27 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static lombok.AccessLevel.PACKAGE;
+
 @Entity
-@Builder
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Getter(PACKAGE)
+@NoArgsConstructor
+@RequiredArgsConstructor(access = PACKAGE)
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false, length = 30)
     private String name;
 
+    @NonNull
     @Column(nullable = false)
     private String image;
 
+    @NonNull
     @Column(nullable = false)
     private int price;
 
@@ -36,10 +40,12 @@ public class Menu {
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    private Restaurant restaurant;
-
-    public void setRestaurant(final Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public Long getId() {
+        return id;
     }
+
+    public String getName() {
+        return name;
+    }
+
 }

@@ -23,47 +23,52 @@ Content-Type: application/json
     ],
     "openTimes": [
         {
-            "day": "MONDAY",
+            "day": "MON",
             "operationStart": "09:00:00",
             "operationEnd": "21:00:00",
             "breakStart": "14:00:00",
             "breakEnd": "16:00:00"
         },
         {
-            "day": "TUESDAY",
+            "day": "TUE",
             "operationStart": "09:00:00",
             "operationEnd": "21:00:00",
             "breakStart": "14:00:00",
             "breakEnd": "16:00:00"
         },
         {
-            "day": "WEDNESDAY",
+            "day": "WED",
             "operationStart": "09:00:00",
             "operationEnd": "21:00:00",
             "breakStart": "14:00:00",
             "breakEnd": "16:00:00"
         },
         {
-            "day": "THURSDAY",
+            "day": "THU",
             "operationStart": "09:00:00",
             "operationEnd": "21:00:00",
             "breakStart": "14:00:00",
             "breakEnd": "16:00:00"
         },
         {
-            "day": "FRIDAY",
+            "day": "FRI",
             "operationStart": "09:00:00",
             "operationEnd": "21:00:00",
             "breakStart": "14:00:00",
             "breakEnd": "16:00:00"
         },
         {
-            "day": "SATURDAY",
+            "day": "SAT",
             "operationStart": "09:00:00",
             "operationEnd": "21:00:00",
             "breakStart": "14:00:00",
             "breakEnd": "16:00:00"
         }
+    ],
+    "images": [
+        "/image/001.jpg",
+        "/image/002.jpg",
+        "/image/003.jpg"
     ]
 }
 
@@ -73,9 +78,29 @@ GET http://localhost:8080/api/restaurants
 ### 맛집 목록 조회 - 페이징
 GET http://localhost:8080/api/restaurants?page=1&size=3&sort=id,DESC
 
-### 맛집 조회
+### 맛집 상세 조회
 GET http://localhost:8080/api/restaurants/1
 
 ### 이용팁 목록 조회
 GET http://localhost:8080/api/restaurants/tips
+
+### 메뉴 등록 - 고사리해장국
+POST http://localhost:8080/api/restaurants/1/menus
+Content-Type: application/json
+
+{
+    "name": "고사리해장국",
+    "price": 8000,
+    "image": "/image/004.jpg"
+}
+
+### 메뉴 등록 - 몸국
+POST http://localhost:8080/api/restaurants/1/menus
+Content-Type: application/json
+
+{
+    "name": "몸국",
+    "price": 8000,
+    "image": "/image/005.jpg"
+}
 

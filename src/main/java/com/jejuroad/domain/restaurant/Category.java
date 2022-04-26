@@ -1,10 +1,8 @@
-package com.jejuroad.domain;
+package com.jejuroad.domain.restaurant;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,12 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import static lombok.AccessLevel.PACKAGE;
+
 @Entity
-@Data
-@Builder
-@Accessors(chain = true)
+@Getter(PACKAGE)
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = PACKAGE)
 public class Category {
 
     @Id

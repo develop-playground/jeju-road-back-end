@@ -4,8 +4,6 @@ import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.dto.RestaurantRequest;
 import com.jejuroad.dto.RestaurantResponse;
 import com.jejuroad.service.RestaurantService;
-import com.jejuroad.service.CategoryService;
-import com.jejuroad.service.TipService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -25,14 +23,20 @@ import static com.jejuroad.common.Message.COMMON_RESPONSE_OK;
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
-    private final CategoryService categoryService;
-    private final TipService tipService;
 
     @PostMapping
     public ResponseEntity<Object> register(@RequestBody RestaurantRequest.Register request) {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
             .information(restaurantService.register(request))
+            .buildAndMapToResponseEntity();
+    }
+
+    @PostMapping("/{restaurantId}/menus")
+    public ResponseEntity<Object> registerMenu(@PathVariable Long restaurantId, @RequestBody RestaurantRequest.RegisterMenu request) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.registerMenu(restaurantId, request))
             .buildAndMapToResponseEntity();
     }
 
@@ -53,10 +57,10 @@ public class RestaurantController {
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<Object> findCategory() {
+    public ResponseEntity<Object> findCategories() {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
-            .information(categoryService.find())
+            .information(restaurantService.findCategories())
             .buildAndMapToResponseEntity();
     }
 
@@ -64,7 +68,7 @@ public class RestaurantController {
     public ResponseEntity<Object> findTips() {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
-            .information(tipService.find())
+            .information(restaurantService.findTips())
             .buildAndMapToResponseEntity();
     }
 

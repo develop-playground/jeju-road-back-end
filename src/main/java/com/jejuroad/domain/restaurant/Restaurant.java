@@ -1,16 +1,19 @@
-package com.jejuroad.domain;
+package com.jejuroad.domain.restaurant;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.jejuroad.common.BusinessException;
+import com.jejuroad.dto.RestaurantRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -24,56 +27,69 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.jejuroad.common.Message.RESTAURANT_RESPONSE_DUPLICATED_MENU_NAME;
 import static javax.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PACKAGE;
 
 @Entity
-@Builder
-@Getter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@NoArgsConstructor
+@RequiredArgsConstructor(access = PACKAGE)
 public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @NonNull
     @Column(nullable = false, length = 30)
     private String name;
 
+    @NonNull
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
         name = "RESTAURANT_CATEGORY",
         joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
         inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID")
     )
-    private List<Category> categories = new ArrayList<>();
+    private List<Category> categories;
 
+    @NonNull
     @Column(nullable = false, length = 70)
     private String introduction;
 
+    @NonNull
     @Column(nullable = false, length = 50)
     private String wayToGo;
 
+    @NonNull
     @Embedded
     private Address address;
 
+    @NonNull
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
         name = "RESTAURANT_TIP",
         joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
         inverseJoinColumns = @JoinColumn(name = "TIP_ID")
     )
-    private List<Tip> tips = new ArrayList<>();
+    private List<Tip> tips;
 
-    @OneToMany
+    @NonNull
+    @OneToMany(cascade = {CascadeType.ALL})
     @JoinColumn(name = "RESTAURANT_ID")
     private List<Menu> menus = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "RESTAURANT_ID")
-    private List<OpenTime> openTimes = new ArrayList<>();
+    @NonNull
+    @ElementCollection
+    @CollectionTable(name = "OPEN_TIME", joinColumns = @JoinColumn(name = "RESTAURANT_ID"))
+    private List<OpenTime> openTimes;
+
+    @NonNull
+    @ElementCollection
+    @CollectionTable(name = "RESTAURANT_IMAGE", joinColumns = @JoinColumn(name = "RESTAURANT_ID"))
+    private List<String> images;
 
     @CreatedDate
     @Column(name = "create_datetime", nullable = false)
@@ -83,7 +99,16 @@ public class Restaurant {
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updatedAt;
 
-    public void setTips(final List<Tip> tips) {
-        this.tips = tips;
+    public void addMenus(final RestaurantRequest.RegisterMenu registerDto) {
+        if (menus.stream().anyMatch(menu -> menu.getName().equals(registerDto.getName())))
+            throw new BusinessException(RESTAURANT_RESPONSE_DUPLICATED_MENU_NAME);
+
+        final Menu newMenu = new Menu(
+            registerDto.getName(),
+            registerDto.getImage(),
+            registerDto.getPrice()
+        );
+        menus.add(newMenu);
     }
+
 }
