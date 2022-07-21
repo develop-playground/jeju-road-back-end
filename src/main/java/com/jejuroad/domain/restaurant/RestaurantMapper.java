@@ -24,8 +24,6 @@ public interface RestaurantMapper {
 
     RestaurantResponse.FindWithDetail.Menu map(Menu menu);
 
-    RestaurantResponse.FindTip mapToFindTipFrom(Tip tip);
-
     default List<String> map(List<Tip> tips) {
         return tips.stream().map(Tip::getContent).collect(Collectors.toList());
     }
@@ -44,6 +42,10 @@ public interface RestaurantMapper {
 
     default RestaurantResponse.FindCategory mapToFindCategoryFrom(Category category) {
         return new RestaurantResponse.FindCategory(category.getName());
+    }
+
+    default RestaurantResponse.FindTip mapToFindTipFrom(Tip tip) {
+        return new RestaurantResponse.FindTip(tip.getId(), tip.getContent());
     }
 
 }
