@@ -1,0 +1,10 @@
+spring:
+    datasource:
+        url: jdbc:h2:mem:jejuroad
+        username: jeju
+        password: jeju123
+        driver-class-name: org.h2.Driver
+    jpa:
+        hibernate:
+            ddl-auto: create
+        show-sql: false

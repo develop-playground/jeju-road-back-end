@@ -15,7 +15,7 @@ import static lombok.AccessLevel.PACKAGE;
 @Entity
 @Getter(PACKAGE)
 @NoArgsConstructor
-@AllArgsConstructor(access = PACKAGE)
+@AllArgsConstructor
 public class Tip {
 
     @Id
