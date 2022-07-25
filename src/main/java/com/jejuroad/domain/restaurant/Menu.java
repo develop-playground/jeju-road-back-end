@@ -12,7 +12,7 @@ import static lombok.AccessLevel.PACKAGE;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Getter(PACKAGE)
+@Getter
 @NoArgsConstructor
 @RequiredArgsConstructor(access = PACKAGE)
 public class Menu {
@@ -39,13 +39,5 @@ public class Menu {
     @LastModifiedDate
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updatedAt;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 
 }
