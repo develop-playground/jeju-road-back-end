@@ -47,7 +47,7 @@ public class Restaurant {
     private String name;
 
     @NonNull
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(
         name = "RESTAURANT_CATEGORY",
         joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
@@ -68,7 +68,7 @@ public class Restaurant {
     private Address address;
 
     @NonNull
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(
         name = "RESTAURANT_TIP",
         joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
