@@ -33,6 +33,11 @@ public enum Message {
         BAD_REQUEST,
         "RESTAURANT-RES004",
         "이미 같은 이름의 메뉴가 해당 맛집에 존재합니다."
+    ),
+    RESTAURANT_RESPONSE_MENU_NOT_FOUND_IN_RESTAURANT(
+        BAD_REQUEST,
+        "RESTAURANT-RES005",
+        "식별자에 해당하는 메뉴가 맛집에 존재하지 않습니다."
     );
 
     private final HttpStatus httpStatus;

@@ -49,7 +49,17 @@ public interface RestaurantRequest {
 
     @Data
     @Builder
+    @AllArgsConstructor
     class RegisterMenu {
+        private String name;
+        private String image;
+        private Integer price;
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    class UpdateMenu {
         private String name;
         private String image;
         private Integer price;

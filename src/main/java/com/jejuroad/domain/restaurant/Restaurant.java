@@ -10,24 +10,14 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.jejuroad.common.Message.RESTAURANT_RESPONSE_DUPLICATED_MENU_NAME;
+import static com.jejuroad.common.Message.RESTAURANT_RESPONSE_MENU_NOT_FOUND_IN_RESTAURANT;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PACKAGE;
 
@@ -35,7 +25,7 @@ import static lombok.AccessLevel.PACKAGE;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor
-@RequiredArgsConstructor(access = PACKAGE)
+@RequiredArgsConstructor
 public class Restaurant {
 
     @Id
@@ -77,7 +67,7 @@ public class Restaurant {
     private List<Tip> tips;
 
     @NonNull
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = EAGER)
     @JoinColumn(name = "RESTAURANT_ID")
     private List<Menu> menus = new ArrayList<>();
 
@@ -109,6 +99,28 @@ public class Restaurant {
             registerDto.getPrice()
         );
         menus.add(newMenu);
+    }
+
+    public Menu excludeMenu(final Long menuId) {
+        for (final Menu menu : menus) {
+            if (menu.getId().equals(menuId)) {
+                menus.remove(menu);
+                return menu;
+            }
+        }
+
+        throw new BusinessException(RESTAURANT_RESPONSE_MENU_NOT_FOUND_IN_RESTAURANT);
+    }
+
+    public Menu updateMenu(final Long menuId, final RestaurantRequest.UpdateMenu request) {
+        for (final Menu menu : menus) {
+            if (menu.getId().equals(menuId)) {
+                menu.update(request);
+                return menu;
+            }
+        }
+
+        throw new BusinessException(RESTAURANT_RESPONSE_MENU_NOT_FOUND_IN_RESTAURANT);
     }
 
 }
