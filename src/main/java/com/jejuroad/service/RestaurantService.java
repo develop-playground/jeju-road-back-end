@@ -83,7 +83,7 @@ public class RestaurantService {
     }
 
     @Transactional
-    public RestaurantResponse.Update update(final Long id, final RestaurantRequest.Register request) {
+    public RestaurantResponse.Update update(final Long id, final RestaurantRequest.Update request) {
         Restaurant updateRestaurant = factory.createRestaurant(request);
         Restaurant findRestaurant = restaurantRepository.findById(id)
             .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
