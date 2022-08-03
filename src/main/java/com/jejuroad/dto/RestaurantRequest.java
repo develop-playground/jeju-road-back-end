@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public interface RestaurantRequest {
     @Data
     @Builder
+    @AllArgsConstructor
     class Register {
         private String name;
         private List<String> categories;

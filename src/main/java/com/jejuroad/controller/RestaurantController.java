@@ -8,12 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.jejuroad.common.Message.COMMON_RESPONSE_OK;
 
@@ -53,6 +48,15 @@ public class RestaurantController {
         return HttpResponseBody.builder()
             .message(COMMON_RESPONSE_OK)
             .information(restaurantService.findById(id))
+            .buildAndMapToResponseEntity();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable Long id,
+                                         @RequestBody RestaurantRequest.Register request) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.update(id,request))
             .buildAndMapToResponseEntity();
     }
 

@@ -111,4 +111,15 @@ public class Restaurant {
         menus.add(newMenu);
     }
 
+    public void update(final Restaurant updateRestaurant) {
+        this.name = updateRestaurant.getName();
+        this.categories = updateRestaurant.getCategories();
+        this.introduction = updateRestaurant.getIntroduction();
+        this.wayToGo = updateRestaurant.getWayToGo();
+        this.address = updateRestaurant.getAddress();
+        this.tips = updateRestaurant.getTips();
+        this.openTimes = updateRestaurant.getOpenTimes();
+        this.images = updateRestaurant.getImages();
+    }
+
 }

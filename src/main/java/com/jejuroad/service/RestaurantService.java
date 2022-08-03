@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -71,6 +72,17 @@ public class RestaurantService {
             .stream()
             .map((tip) -> mapper.mapToFindTipFrom(tip))
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public RestaurantResponse.Update update(final Long id, final RestaurantRequest.Register request) {
+        Restaurant updateRestaurant = factory.createRestaurant(request);
+        Restaurant findRestaurant = restaurantRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
+
+        findRestaurant.update(updateRestaurant);
+
+        return RestaurantResponse.Update.from(findRestaurant);
     }
 
 }
