@@ -18,6 +18,13 @@ public interface RestaurantResponse {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    class Delete {
+        private Long id;
+    }
+
+    @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
