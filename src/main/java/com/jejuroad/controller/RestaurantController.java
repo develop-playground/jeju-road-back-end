@@ -59,6 +59,15 @@ public class RestaurantController {
             .buildAndMapToResponseEntity();
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable Long id,
+                                         @RequestBody RestaurantRequest.Register request) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.update(id,request))
+            .buildAndMapToResponseEntity();
+    }
+
     @GetMapping("/categories")
     public ResponseEntity<Object> findCategories() {
         return HttpResponseBody.builder()

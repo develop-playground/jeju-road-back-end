@@ -81,4 +81,16 @@ public class RestaurantService {
             .map((tip) -> mapper.mapToFindTipFrom(tip))
             .collect(Collectors.toList());
     }
+
+    @Transactional
+    public RestaurantResponse.Update update(final Long id, final RestaurantRequest.Register request) {
+        Restaurant updateRestaurant = factory.createRestaurant(request);
+        Restaurant findRestaurant = restaurantRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
+
+        findRestaurant.update(updateRestaurant);
+
+        return RestaurantResponse.Update.from(findRestaurant);
+    }
+
 }
