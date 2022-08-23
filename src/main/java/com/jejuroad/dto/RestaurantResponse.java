@@ -172,6 +172,24 @@ public interface RestaurantResponse {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    class DeleteMenu {
+        private Long id;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    class UpdateMenu {
+        private Long id;
+        private String name;
+        private String image;
+        private Integer price;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     class FindCategory {
         String name;
     }

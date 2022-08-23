@@ -84,4 +84,24 @@ public class RestaurantController {
             .buildAndMapToResponseEntity();
     }
 
+    @PatchMapping("/{restaurantId}/menus/{menuId}")
+    public ResponseEntity<Object> updateMenu(
+        @PathVariable Long restaurantId,
+        @PathVariable Long menuId,
+        @RequestBody RestaurantRequest.UpdateMenu request
+    ) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.updateMenu(restaurantId, menuId, request))
+            .buildAndMapToResponseEntity();
+    }
+
+    @DeleteMapping("/{restaurantId}/menus/{menuId}")
+    public ResponseEntity<Object> deleteMenu(@PathVariable Long restaurantId, @PathVariable Long menuId) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.deleteMenu(restaurantId, menuId))
+            .buildAndMapToResponseEntity();
+    }
+
 }

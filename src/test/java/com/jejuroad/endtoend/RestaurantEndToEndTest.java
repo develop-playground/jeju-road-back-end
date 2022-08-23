@@ -2,11 +2,11 @@ package com.jejuroad.endtoend;
 
 import com.jejuroad.common.HttpResponseBody;
 import com.jejuroad.common.Message;
-import com.jejuroad.domain.restaurant.Category;
-import com.jejuroad.domain.restaurant.Tip;
+import com.jejuroad.domain.restaurant.*;
 import com.jejuroad.dto.RestaurantRequest;
 import com.jejuroad.dto.RestaurantResponse;
 import com.jejuroad.repository.CategoryRepository;
+import com.jejuroad.repository.RestaurantRepository;
 import com.jejuroad.repository.TipRepository;
 import com.jejuroad.service.RestaurantService;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,9 +32,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.jejuroad.common.Message.COMMON_RESPONSE_OK;
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -55,6 +57,9 @@ public class RestaurantEndToEndTest {
     private MockMvc mockMvc;
 
     private WebTestClient webTestClient;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -85,7 +90,6 @@ public class RestaurantEndToEndTest {
         tipRepository.save(new Tip(0L, "합석 가능성 있음"));
 
         final Message expectedMessage = COMMON_RESPONSE_OK;
-        final RestaurantResponse.Register expectedInformation = new RestaurantResponse.Register(1L);
         final RestaurantRequest.Register requestDto = RestaurantRequest.Register.builder()
             .name("우진해장국")
             .categories(List.of("RESTAURANT", "CAFFE"))
@@ -165,7 +169,7 @@ public class RestaurantEndToEndTest {
                 HttpResponseBody<RestaurantResponse.Register> responseBody = response.getResponseBody();
                 assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
                 assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
-                assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
+                assertThat(responseBody.getInformation().getId()).isPositive();
             })
             .consumeWith(
                 document(
@@ -197,6 +201,139 @@ public class RestaurantEndToEndTest {
                     )
                 )
             );
+    }
+
+    @Test
+    @DisplayName("메뉴 수정 성공 테스트")
+    void testUpdateMenu() {
+        // given
+        Address address = new Address("28921", "제주", "제주시", "제주 시내", "제주특별자치도 제주시 서사로 11", 11.11, 22.22);
+        Restaurant restaurant = new Restaurant(
+            "우진해장국",
+            new ArrayList(),
+            "'수요미식회'에 방영된, 따끈한 국물 요리로 해장하기 좋은 음식점",
+            "동문 재래 시장에서 도보 9분",
+            address,
+            new ArrayList(),
+            new ArrayList(),
+            new ArrayList()
+        );
+        restaurant.addMenus(new RestaurantRequest.RegisterMenu("고사리 해장국", "/images/image_001", 9_000));
+        restaurant.addMenus(new RestaurantRequest.RegisterMenu("몸국", "/images/image_002", 9_000));
+
+        restaurant = restaurantRepository.save(restaurant);
+
+        Long restaurantId = restaurant.getId();
+        Long menuId = restaurant.getMenus().get(0).getId();
+
+        final Message expectedMessage = COMMON_RESPONSE_OK;
+        final RestaurantRequest.UpdateMenu requestDto = RestaurantRequest.UpdateMenu.builder()
+            .price(10_000)
+            .build();
+        final RestaurantResponse.UpdateMenu expectedInformation = RestaurantResponse.UpdateMenu.builder()
+            .id(menuId)
+            .name("고사리 해장국")
+            .image("/images/image_001")
+            .price(10_000)
+            .build();
+
+        // when & then
+        webTestClient
+            .patch()
+            .uri("/api/restaurants/{restaurantId}/menus/{menuId}", restaurantId, menuId)
+            .accept(APPLICATION_JSON)
+            .bodyValue(requestDto)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().valueEquals("Content-Type", "application/json")
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<RestaurantResponse.UpdateMenu>>() {
+            })
+            .consumeWith(response -> {
+                HttpResponseBody<RestaurantResponse.UpdateMenu> responseBody = response.getResponseBody();
+                assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
+                assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
+                assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
+            })
+            .consumeWith(
+                document(
+                    "menus/update",
+                    pathParameters(
+                        parameterWithName("restaurantId").description("맛집 식별자"),
+                        parameterWithName("menuId").description("수정를 원하는 메뉴 식별자")
+                    ),
+                    requestFields(
+                        fieldWithPath("name").description("메뉴 이름").type("String").optional(),
+                        fieldWithPath("price").description("메뉴 가격").type("Number").optional(),
+                        fieldWithPath("image").description("메뉴 이미지 경로").type("String").optional()
+                    ),
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("메뉴의 식별자"),
+                        fieldWithPath("name").description("메뉴 이름"),
+                        fieldWithPath("image").description("메뉴 이미지 경로"),
+                        fieldWithPath("price").description("메뉴 가격")
+                    )
+                )
+            );
+    }
+
+    @Test
+    @DisplayName("메뉴 삭제 성공 테스트")
+    void testDeleteMenu() {
+        // given
+        Address address = new Address("28921", "제주", "제주시", "제주 시내", "제주특별자치도 제주시 서사로 11", 11.11, 22.22);
+        Restaurant restaurant = new Restaurant(
+            "우진해장국",
+            new ArrayList(),
+            "'수요미식회'에 방영된, 따끈한 국물 요리로 해장하기 좋은 음식점",
+            "동문 재래 시장에서 도보 9분",
+            address,
+            new ArrayList(),
+            new ArrayList(),
+            new ArrayList()
+        );
+        restaurant.addMenus(new RestaurantRequest.RegisterMenu("고사리 해장국", "/images/image_001", 9_000));
+        restaurant.addMenus(new RestaurantRequest.RegisterMenu("몸국", "/images/image_002", 9_000));
+
+        restaurant = restaurantRepository.save(restaurant);
+
+        Long restaurantId = restaurant.getId();
+        Long menuId = restaurant.getMenus().get(0).getId();
+
+        final Message expectedMessage = COMMON_RESPONSE_OK;
+        final RestaurantResponse.DeleteMenu expectedInformation = new RestaurantResponse.DeleteMenu(menuId);
+
+        // when & then
+        webTestClient
+            .delete()
+            .uri("/api/restaurants/{restaurantId}/menus/{menuId}", restaurantId, menuId)
+            .accept(APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().valueEquals("Content-Type", "application/json")
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<RestaurantResponse.DeleteMenu>>() {
+            })
+            .consumeWith(response -> {
+                HttpResponseBody<RestaurantResponse.DeleteMenu> responseBody = response.getResponseBody();
+                assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
+                assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
+                assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
+            })
+            .consumeWith(
+                document(
+                    "menus/delete",
+                    pathParameters(
+                        parameterWithName("restaurantId").description("맛집 식별자"),
+                        parameterWithName("menuId").description("삭제를 원하는 메뉴 식별자")
+                    ),
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("삭제된 메뉴의 식별자")
+                    )
+                )
+            );
+
+        assertThat(restaurantRepository.findById(restaurantId).get().getMenus().size()).isEqualTo(1);
     }
 
 }

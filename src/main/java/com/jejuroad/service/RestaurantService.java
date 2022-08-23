@@ -1,6 +1,7 @@
 package com.jejuroad.service;
 
 import com.jejuroad.common.BusinessException;
+import com.jejuroad.domain.restaurant.Menu;
 import com.jejuroad.domain.restaurant.RestaurantMapper;
 import com.jejuroad.domain.restaurant.Restaurant;
 import com.jejuroad.domain.restaurant.RestaurantFactory;
@@ -80,6 +81,34 @@ public class RestaurantService {
             .stream()
             .map((tip) -> mapper.mapToFindTipFrom(tip))
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public RestaurantResponse.DeleteMenu deleteMenu(
+        final Long restaurantId,
+        final Long menuId
+    ) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
+
+        Menu deletedMenu = restaurant.excludeMenu(menuId);
+        return new RestaurantResponse.DeleteMenu(deletedMenu.getId());
+    }
+
+    @Transactional
+    public RestaurantResponse.UpdateMenu updateMenu(
+        final Long restaurantId,
+        final Long menuId,
+        final RestaurantRequest.UpdateMenu request
+    ) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
+
+        Menu updatedMenu = restaurant.updateMenu(menuId, request);
+        return new RestaurantResponse.UpdateMenu(
+            updatedMenu.getId(),
+            updatedMenu.getName(),
+            updatedMenu.getImage(),
+            updatedMenu.getPrice()
+        );
     }
 
     @Transactional
