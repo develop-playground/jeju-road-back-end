@@ -367,6 +367,45 @@ public class RestaurantWebLayerTest {
     }
 
     @Test
+    @DisplayName("맛집 삭제 성공 테스트")
+    void testDeleteRestaurant() {
+        final Message expectedMessage = COMMON_RESPONSE_OK;
+        final RestaurantResponse.Delete expectedInformation = new RestaurantResponse.Delete(1L);
+
+        when(restaurantService.delete(1L)).thenReturn(expectedInformation);
+
+        webTestClient
+            .delete()
+            .uri("/api/restaurants/{id}", 1L)
+            .accept(APPLICATION_JSON)
+            .exchange()
+            .expectStatus().isOk()
+            .expectHeader().valueEquals("Content-Type", "application/json")
+            .expectBody(new ParameterizedTypeReference<HttpResponseBody<RestaurantResponse.Delete>>() {
+            })
+            .consumeWith(response -> {
+                HttpResponseBody<RestaurantResponse.Delete> responseBody = response.getResponseBody();
+                assertThat(responseBody.getCode()).isEqualTo(expectedMessage.getCode());
+                assertThat(responseBody.getMessage()).isEqualTo(expectedMessage.getMessage());
+                assertThat(responseBody.getInformation()).isEqualTo(expectedInformation);
+            })
+            .consumeWith(
+                document(
+                    "restaurants/delete",
+                    pathParameters(
+                        parameterWithName("id").description("맛집 식별자")
+                    ),
+                    responseFields(
+                        beneathPath("information").withSubsectionId("information"),
+                        fieldWithPath("id").description("삭제된 맛집 식별자")
+                    )
+                )
+            );
+
+        verify(restaurantService).delete(1L);
+    }
+
+    @Test
     @DisplayName("카테고리 목록 조회 성공 테스트")
     void testFindCategories() {
         final Message expectedMessage = COMMON_RESPONSE_OK;

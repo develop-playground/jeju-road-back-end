@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import static lombok.AccessLevel.PACKAGE;
 
 @Entity
-@Getter(PACKAGE)
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Category {

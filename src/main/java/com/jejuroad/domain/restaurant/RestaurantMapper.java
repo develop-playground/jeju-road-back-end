@@ -48,4 +48,7 @@ public interface RestaurantMapper {
         return new RestaurantResponse.FindTip(tip.getId(), tip.getContent());
     }
 
+    default RestaurantResponse.Delete mapToDeleteFrom(Restaurant restaurant) {
+        return new RestaurantResponse.Delete(restaurant.getId());
+    }
 }

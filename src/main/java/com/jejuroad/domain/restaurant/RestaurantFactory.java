@@ -44,6 +44,30 @@ public class RestaurantFactory {
         );
     }
 
+    public Restaurant createRestaurant(final RestaurantRequest.Update requestDto) {
+        final List<Category> categories = getCategories(requestDto.getCategories());
+        final List<Tip> tips = getTips(requestDto.getTipIds());
+
+        return new Restaurant(
+            requestDto.getName(),
+            categories,
+            requestDto.getIntroduction(),
+            requestDto.getWayToGo(),
+            new Address(
+                requestDto.getZipcode(),
+                requestDto.getState(),
+                requestDto.getCity(),
+                requestDto.getSimpleAddress(),
+                requestDto.getDetailAddress(),
+                requestDto.getLatitude(),
+                requestDto.getLongitude()
+            ),
+            tips,
+            createOpenTimesByUpdate(requestDto.getOpenTimes()),
+            requestDto.getImages()
+        );
+    }
+
     private List<Category> getCategories(final List<String> categoriesDto) {
         return categoriesDto
             .stream()
@@ -59,6 +83,19 @@ public class RestaurantFactory {
     }
 
     private List<OpenTime> createOpenTimes(final List<RestaurantRequest.Register.OpenTime> openTimesDto) {
+        return openTimesDto
+            .stream()
+            .map(dto -> new OpenTime(
+                OpenTime.Day.valueOf(dto.getDay().toUpperCase()),
+                dto.getOperationStart(),
+                dto.getOperationEnd(),
+                dto.getBreakStart(),
+                dto.getBreakEnd()
+            ))
+            .collect(Collectors.toList());
+    }
+
+    private List<OpenTime> createOpenTimesByUpdate(final List<RestaurantRequest.Update.OpenTime> openTimesDto) {
         return openTimesDto
             .stream()
             .map(dto -> new OpenTime(

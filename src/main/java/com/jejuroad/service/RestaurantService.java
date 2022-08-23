@@ -54,6 +54,14 @@ public class RestaurantService {
             .map((domain) -> mapper.mapToFindFrom(domain));
     }
 
+    @Transactional
+    public RestaurantResponse.Delete delete(final Long id) {
+        final Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
+        restaurantRepository.delete(restaurant);
+
+        return mapper.mapToDeleteFrom(restaurant);
+    }
+
     public RestaurantResponse.FindWithDetail findById(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
         return mapper.mapToFindWithDetailFrom(restaurant);
@@ -101,6 +109,17 @@ public class RestaurantService {
             updatedMenu.getImage(),
             updatedMenu.getPrice()
         );
+    }
+
+    @Transactional
+    public RestaurantResponse.Update update(final Long id, final RestaurantRequest.Update request) {
+        Restaurant updateRestaurant = factory.createRestaurant(request);
+        Restaurant findRestaurant = restaurantRepository.findById(id)
+            .orElseThrow(() -> new BusinessException(RESTAURANT_RESPONSE_NOT_FOUND));
+
+        findRestaurant.update(updateRestaurant);
+
+        return RestaurantResponse.Update.from(findRestaurant);
     }
 
 }

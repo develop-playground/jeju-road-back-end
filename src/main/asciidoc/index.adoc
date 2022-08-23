@@ -44,6 +44,15 @@ operation::restaurants/findAll[snippets='http-request,request-parameters,http-re
 operation::restaurants/findById[snippets='http-request,path-parameters,http-response,response-fields-information']
 ****
 
+=== **[DELETE] /api/restaurants/{id} - 맛집 삭제**
+****
+[discrete]
+==== Description
+시스템에 맛집 삭제를 요청합니다.
+
+operation::restaurants/delete[snippets='curl-request,http-request,http-response,response-fields-information']
+****
+
 === **[GET] /api/restaurants/categories - 카테고리 목록 조회**
 ****
 [discrete]
@@ -88,5 +97,5 @@ operation::menus/delete[snippets='http-request,path-parameters,http-response,res
 ==== Description
 시스템에 등록된 팁의 목록을 조회합니다.
 
-operation::tip/findAll[snippets='curl-request,http-request,http-response,response-fields-information']
+operation::tips/findAll[snippets='curl-request,http-request,http-response,response-fields-information']
 ****

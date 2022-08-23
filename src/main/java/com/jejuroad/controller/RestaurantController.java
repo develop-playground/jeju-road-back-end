@@ -51,6 +51,23 @@ public class RestaurantController {
             .buildAndMapToResponseEntity();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.delete(id))
+            .buildAndMapToResponseEntity();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable Long id,
+                                         @RequestBody RestaurantRequest.Update request) {
+        return HttpResponseBody.builder()
+            .message(COMMON_RESPONSE_OK)
+            .information(restaurantService.update(id,request))
+            .buildAndMapToResponseEntity();
+    }
+
     @GetMapping("/categories")
     public ResponseEntity<Object> findCategories() {
         return HttpResponseBody.builder()

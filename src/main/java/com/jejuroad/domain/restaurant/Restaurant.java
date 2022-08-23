@@ -10,7 +10,19 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +49,7 @@ public class Restaurant {
     private String name;
 
     @NonNull
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(
         name = "RESTAURANT_CATEGORY",
         joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
@@ -58,7 +70,7 @@ public class Restaurant {
     private Address address;
 
     @NonNull
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(
         name = "RESTAURANT_TIP",
         joinColumns = @JoinColumn(name = "RESTAURANT_ID"),
@@ -99,6 +111,17 @@ public class Restaurant {
             registerDto.getPrice()
         );
         menus.add(newMenu);
+    }
+
+    public void update(final Restaurant updateRestaurant) {
+        this.name = updateRestaurant.getName();
+        this.categories = updateRestaurant.getCategories();
+        this.introduction = updateRestaurant.getIntroduction();
+        this.wayToGo = updateRestaurant.getWayToGo();
+        this.address = updateRestaurant.getAddress();
+        this.tips = updateRestaurant.getTips();
+        this.openTimes = updateRestaurant.getOpenTimes();
+        this.images = updateRestaurant.getImages();
     }
 
     public Menu excludeMenu(final Long menuId) {
