@@ -48,5 +48,5 @@ jobs:
     
       - name: deploy run 
         run: |
-          sudo sh /home/junsu/run.sh
+          sh /dodo/devpg/run.sh
        
