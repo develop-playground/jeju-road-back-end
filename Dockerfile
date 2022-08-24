@@ -1,5 +1,5 @@
 FROM openjdk:11-jdk
-MAINTAINER woung2770@gmail.com
+LABEL description="jeju road by Dev.Playground"
 
 ENV APP_HOME="/usr/app/"
 
