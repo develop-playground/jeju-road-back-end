@@ -12,7 +12,7 @@ import static lombok.AccessLevel.PACKAGE;
 @Embeddable
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor(access = PACKAGE)
+@AllArgsConstructor
 public class Address {
 
     @Column(nullable = false, length = 7)

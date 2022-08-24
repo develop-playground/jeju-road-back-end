@@ -15,7 +15,7 @@ import java.time.LocalTime;
 import static lombok.AccessLevel.PACKAGE;
 
 @Embeddable
-@Getter(PACKAGE)
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = PACKAGE)
 @EntityListeners(AuditingEntityListener.class)

@@ -1,5 +1,6 @@
 package com.jejuroad.domain.restaurant;
 
+import com.jejuroad.dto.RestaurantRequest;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,7 +15,7 @@ import static lombok.AccessLevel.PACKAGE;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor
-@RequiredArgsConstructor(access = PACKAGE)
+@RequiredArgsConstructor
 public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +40,17 @@ public class Menu {
     @LastModifiedDate
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updatedAt;
+
+    public void update(final RestaurantRequest.UpdateMenu request) {
+        if (request.getName() != null) {
+            this.name = request.getName();
+        }
+        if (request.getImage() != null) {
+            this.image = request.getImage();
+        }
+        if (request.getPrice() != null) {
+            this.price = request.getPrice();
+        }
+    }
 
 }
