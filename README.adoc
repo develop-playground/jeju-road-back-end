@@ -57,6 +57,7 @@ $ cd {project_name}
 * link:{git_service}{project_name}/issues/21[`WebTestClient` 를 활용한 웹 레이어 테스트 코드 구현]
 * link:{git_service}{project_name}/issues/13[`Spring REST Docs` 를 활용한 API 문서 자동화]
 * link:{git_service}{project_name}/issues/29[`EditorConfig` 를 활용한 코드스타일 공통화]
+* link:{git_service}{project_name}/issues/56[`Github Actions` 를 활용한 CI/CD 파이프라인 구축]
 
 == License
 
